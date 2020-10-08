@@ -1,12 +1,16 @@
-from PyQt5.QtWidgets import QWidget, QPushButton, QGridLayout,QLabel,QMessageBox
+from PyQt5.QtWidgets import QWidget, QPushButton, QGridLayout, QLabel, QMessageBox, QFrame
 from PyQt5.QtWidgets import QHBoxLayout,QApplication,QComboBox
 from PyQt5.QtCore import Qt
 
+from SuperAdminisOperation import Addfile
 
 
-class Addfile_win(QWidget):
+class Addfile_win(QFrame):
     def __init__(self):
         super(Addfile_win, self).__init__()
+        self.setFrameShape(QFrame.StyledPanel)
+        self.setFrameShadow(QFrame.Raised)
+        self.datawindow = Addfile.Addfile(self)
         self.returnbut = QPushButton("返回")
         self.addfile = QPushButton("添加文件")
         self.addmufile = QPushButton("添加目录")
@@ -125,11 +129,11 @@ class Select_location(QWidget):
         self.typebox.addItems(['', '小学', '初中', '高中'])
 
     def surefun(self):
-        if(self.greadebox.currentText()==""):
+        if self.greadebox.currentText()== "":
             QMessageBox.about(self, "提示", '年级的选项框不能为空!!')
-        elif(self.typebox.currentText()==""):
+        elif self.typebox.currentText()== "":
             QMessageBox.about(self, "提示", '学习阶段的选项框不能为空!!')
-        elif (self.coursebox.currentText()==""):
+        elif self.coursebox.currentText()== "":
             QMessageBox.about(self, "提示", '科目的选项框不能为空!!')
         self.close()
         self.dow.clicked()
