@@ -1,12 +1,20 @@
-from PyQt5.QtWidgets import QWidget, QAbstractItemView, QPushButton, QGridLayout,QLineEdit,QListWidget
-from PyQt5.QtWidgets import QHBoxLayout,QComboBox,QTableWidget,QHeaderView,QLabel,QMessageBox,QListWidgetItem
-from PyQt5.QtGui import QFont,QPixmap,QColor
-from PyQt5.QtCore import QSize
-import base64,sqlite3
+import base64
+import sqlite3
 
-class Controller_news_win(QWidget):
+from PyQt5.QtCore import QSize
+from PyQt5.QtGui import QFont, QPixmap, QColor
+from PyQt5.QtWidgets import QHBoxLayout, QComboBox, QTableWidget, QHeaderView, QLabel, QMessageBox, QListWidgetItem
+from PyQt5.QtWidgets import QWidget, QAbstractItemView, QPushButton, QGridLayout, QLineEdit, QListWidget, QFrame
+
+from SuperAdminisOperation import Controller_news
+
+
+class Controller_news_win(QFrame):
     def __init__(self):
         super(Controller_news_win, self).__init__()
+        self.setFrameShape(QFrame.StyledPanel)
+        self.setFrameShadow(QFrame.Raised)
+        self.datawindow = Controller_news.Controller_news(self)
         self.returnbut = QPushButton("返回")
         self.addusr = QPushButton("添加用户")
         self.addcontroller = QPushButton("添加管理员")

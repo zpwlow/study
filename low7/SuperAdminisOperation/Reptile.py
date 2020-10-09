@@ -1,22 +1,16 @@
-from PyQt5.QtWidgets import QHBoxLayout,QFileDialog,QApplication
-from PyQt5.QtWidgets import QFrame,QMessageBox
+from PyQt5.QtWidgets import QHBoxLayout, QFileDialog, QApplication
+from PyQt5.QtWidgets import QFrame, QMessageBox
 from PyQt5.QtGui import QPixmap
 import time
 import SuperAdminisOperation
 from SuperAdminisOperation import Function
-from SuperAdminisInterface.Reptile_win import Reptile_win,RepliteJob,Select_Reptile
+from SuperAdminisInterface.Reptile_win import Reptile_win, RepliteJob, Select_Reptile
 
 
-
-class Reptile(QFrame):
-    def __init__(self):
+class Reptile:
+    def __init__(self, win):
         super(Reptile, self).__init__()
-        self.setFrameShape(QFrame.StyledPanel)
-        self.setFrameShadow(QFrame.Raised)
-        self.reptile =  Reptile_win()
-        self.horizontalLayout = QHBoxLayout(self)
-        self.horizontalLayout.addWidget(self.reptile)
-
+        self.reptile = win
         self.job = RepliteJob(self)
         self.dow = Select_Reptile(self)
         self.reptile.Reptile_child1but1.clicked.connect(self.return_fun)
@@ -30,7 +24,7 @@ class Reptile(QFrame):
         SuperAdminisOperation.win.splitter.insertWidget(0, Function.Function())
 
     def select_fun3(self):
-        self.window1tree.clear()
+        self.reptile.window1tree.clear()
         self.dow.fun2()
         self.dow.show()
 
@@ -45,10 +39,9 @@ class Reptile(QFrame):
 
     def select_fun2(self):
         self.job.stop()
-        QMessageBox.about(self, "提示", '暂停成功!!')
+        QMessageBox.about(self.reptile, "提示", '暂停成功!!')
         self.reptile.Reptile_child1but3.setEnabled(False)
         time.sleep(2)
-
 
     def select_fun1(self):
         self.reptile.Reptile_child1but2.setEnabled(False)
@@ -56,15 +49,15 @@ class Reptile(QFrame):
         type = self.dow.gettype()
         greade = self.dow.getgrade()
         course = self.dow.getcourse()
-        rely = QMessageBox.question(self, "提示!", "爬取过程需要时间比较久\n请问是否继续？", QMessageBox.Yes | QMessageBox.No,
+        rely = QMessageBox.question(self.reptile, "提示!", "爬取过程需要时间比较久\n请问是否继续？", QMessageBox.Yes | QMessageBox.No,
                                     QMessageBox.Yes)
         if rely == 65536:
             return
-        self.window1tree.setPlainText("爬取课件数据开始\n爬取过程需要时间比较久，请您耐心等待!!\n\n")
-        self.job.setdata(type,greade,course)
+        self.reptile.window1tree.setPlainText("爬取课件数据开始\n爬取过程需要时间比较久，请您耐心等待!!\n\n")
+        self.job.setdata(type, greade, course)
         self.job.updated.connect(self.settext)
         self.job.start()
 
-    def settext(self,text):
-        self.window1tree.append(text)
+    def settext(self, text):
+        self.reptile.window1tree.append(text)
         QApplication.processEvents()

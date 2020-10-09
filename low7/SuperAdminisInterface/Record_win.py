@@ -1,11 +1,17 @@
-from PyQt5.QtWidgets import QWidget, QLabel, QPushButton, QGridLayout,QLineEdit
+from PyQt5.QtWidgets import QWidget, QLabel, QPushButton, QGridLayout, QLineEdit, QFrame
 from PyQt5.QtWidgets import QHBoxLayout
 from PyQt5.QtGui import QFont
 
-#登录
-class Record_win(QWidget):  # 用户登录界面
+# 登录
+from SuperAdminisOperation import Record
+
+
+class Record_win(QFrame):  # 用户登录界面
     def __init__(self):
         super(Record_win, self).__init__()
+        self.setFrameShape(QFrame.StyledPanel)
+        self.setFrameShadow(QFrame.Raised)
+        self.datawindow = Record.Record(self)
         self.usr = QLabel("用户:")
         self.password = QLabel("密码:")
         self.usrLineEdit = QLineEdit()

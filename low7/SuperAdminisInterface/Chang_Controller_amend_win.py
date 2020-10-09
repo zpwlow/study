@@ -1,12 +1,19 @@
-from PyQt5.QtWidgets import QWidget, QLabel, QPushButton, QGridLayout,QLineEdit
+from PyQt5.QtWidgets import QWidget, QLabel, QPushButton, QGridLayout, QLineEdit, QFrame
 from PyQt5.QtWidgets import QHBoxLayout
 from PyQt5.QtGui import QFont
 
 
 # 修改管理员密码
-class Chang_Controller_amend_win(QWidget):
-    def __init__(self):
+from SuperAdminisOperation import Chang_Controller_amend
+
+
+class Chang_Controller_amend_win(QFrame):
+    def __init__(self, number):
         super(Chang_Controller_amend_win, self).__init__()
+        self.setFrameShape(QFrame.StyledPanel)
+        self.setFrameShadow(QFrame.Raised)
+        self.datawindow = Chang_Controller_amend.Chang_Controller_amend(self)
+        self.number = number
         self.usrlab = QLabel("账号:")
         self.amendlab1 = QLabel("原密码:")
         self.amendlab2 = QLabel("新密码:")

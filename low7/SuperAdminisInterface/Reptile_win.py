@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QWidget,  QPushButton, QGridLayout,QTextEdit,QHBoxLayout,QMessageBox
+from PyQt5.QtWidgets import QWidget, QPushButton, QGridLayout, QTextEdit, QHBoxLayout, QMessageBox, QFrame
 from PyQt5.QtWidgets import QComboBox,QLabel,QApplication
 from PyQt5 import QtCore
 from PyQt5 import QtGui
@@ -14,11 +14,15 @@ import zipfile
 import shutil
 import subprocess
 
+from SuperAdminisOperation import Reptile
 
 
-class Reptile_win(QWidget):
+class Reptile_win(QFrame):
     def __init__(self):
         super(Reptile_win, self).__init__()
+        self.setFrameShape(QFrame.StyledPanel)
+        self.setFrameShadow(QFrame.Raised)
+        self.datawindow = Reptile.Reptile(self)
         self.Reptile_child1but1 = QPushButton("返回")
         self.Reptile_child1but2 = QPushButton("开始")
         self.Reptile_child1but3 = QPushButton("暂停")

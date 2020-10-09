@@ -1,29 +1,17 @@
-from PyQt5.QtWidgets import QHBoxLayout,QTableWidgetItem,QCheckBox
-from PyQt5.QtWidgets import QFrame,QMessageBox,QToolBox,QWidget
-from PyQt5.QtGui import Qt,QBrush,QColor
-from captcha.image import ImageCaptcha
-import random,sqlite3
+import sqlite3
 import SuperAdminisOperation
-from SuperAdminisOperation import Controller_news,Chang_Controller_amend
-from SuperAdminisInterface.Edit_Controller_win import Edit_Controller_win
+from SuperAdminisInterface import Controller_news_win, Chang_Controller_amend_win
 
 
-
-
-class Edit_Controller(QFrame):
-    def __init__(self,number):
+class Edit_Controller:
+    def __init__(self, win):
         super(Edit_Controller, self).__init__()
-        self.setFrameShape(QFrame.StyledPanel)
-        self.setFrameShadow(QFrame.Raised)
-        self.edit = Edit_Controller_win()
-        self.horizontalLayout = QHBoxLayout(self)
-        self.horizontalLayout.addWidget(self.edit)
-
-        self.number = number
+        self.edit = win
         sqlpath = './datas/database/Information.db'
         conn = sqlite3.connect(sqlpath)
         c = conn.cursor()
-        c.execute("select * from Controller_data where number=(?)", (self.number,))
+        c.execute("select * from Controller_data where number=(?)",
+                  (self.edit.number,))
         for data in c.fetchall():
             self.data = data
         c.close()
@@ -39,7 +27,7 @@ class Edit_Controller(QFrame):
 
     def return_fun(self):
         SuperAdminisOperation.win.splitter.widget(0).setParent(None)
-        SuperAdminisOperation.win.splitter.insertWidget(0, Controller_news.Controller_news())
+        SuperAdminisOperation.win.splitter.insertWidget(0, Controller_news_win.Controller_news_win())
 
     def save_data(self):
         a = self.edit.nameEdit.text()
@@ -49,16 +37,16 @@ class Edit_Controller(QFrame):
         sqlpath = './datas/database/Information.db'
         conn = sqlite3.connect(sqlpath)
         conn.execute("update User_data set name =(?),birthday=(?),sex=(?),school=(?) where number=(?)",
-                     (a, b, c, d,self.number))
+                     (a, b, c, d, self.edit.number))
         conn.commit()
         conn.close()
 
     def connect_fun(self):
         SuperAdminisOperation.win.splitter.widget(0).setParent(None)
         self.save_data()
-        Controller_news.Controller_news().devise_ui()
-        SuperAdminisOperation.win.splitter.insertWidget(0, Controller_news.Controller_news())
+        Controller_news_win.Controller_news_win().devise_ui()
+        SuperAdminisOperation.win.splitter.insertWidget(0, Controller_news_win.Controller_news_win())
 
     def connect_fun1(self):
         SuperAdminisOperation.win.splitter.widget(0).setParent(None)
-        SuperAdminisOperation.win.splitter.insertWidget(0, Chang_Controller_amend.Chang_Controller_amend(self.number))
+        SuperAdminisOperation.win.splitter.insertWidget(0, Chang_Controller_amend_win.Chang_Controller_amend_win(self.edit.number))

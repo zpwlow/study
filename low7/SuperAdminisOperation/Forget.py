@@ -1,24 +1,16 @@
-from PyQt5.QtWidgets import QHBoxLayout
-from PyQt5.QtWidgets import QFrame,QMessageBox
+from PyQt5.QtWidgets import QMessageBox
 from PyQt5.QtGui import QPixmap
 from captcha.image import ImageCaptcha
-import random,sqlite3,time
+import random, sqlite3, time
 import SuperAdminisOperation
-from SuperAdminisOperation import Record,Function,Logon
-from SuperAdminisInterface.Forget_win import Forget_win
+from SuperAdminisInterface import Function_win, Logon_win, Record_win
 
 
-
-#忘记密码
-class Forget(QFrame):
-    def __init__(self):
+# 忘记密码
+class Forget:
+    def __init__(self, win):
         super(Forget, self).__init__()
-        self.setFrameShape(QFrame.StyledPanel)
-        self.setFrameShadow(QFrame.Raised)
-        self.forget = Forget_win()
-        self.horizontalLayout = QHBoxLayout(self)
-        self.horizontalLayout.addWidget(self.forget)
-
+        self.forget = win
         self.forget.okBtn1.clicked.connect(self.accept)
         self.forget.usrLineEdit2.returnPressed.connect(self.enterPress1)  # 用户输入框按回车判断
         self.forget.pwdLineEdit2.returnPressed.connect(self.enterPress2)  # 密码输入框按回车判断
@@ -29,7 +21,7 @@ class Forget(QFrame):
 
     def return_record(self):
         SuperAdminisOperation.win.splitter.widget(0).setParent(None)
-        SuperAdminisOperation.win.splitter.insertWidget(0, Record.Record())
+        SuperAdminisOperation.win.splitter.insertWidget(0, Record_win.Record_win())
 
     def renovate_code(self):  # 生成验证码图片
         list = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
@@ -74,52 +66,52 @@ class Forget(QFrame):
 
     def enterPress1(self):  # 忘记密码时回车确定时判断文字框是否有输入
         if len(self.forget.usrLineEdit2.text()) == 0:
-            QMessageBox.about(self, "提示!", "号码不能为空！")
+            QMessageBox.about(self.forget, "提示!", "号码不能为空！")
             self.forget.usrLineEdit2.setFocus()
         elif len(self.forget.usrLineEdit2.text()) != 11:
-            QMessageBox.about(self, "提示!", "您输入的号码是错误的！\n请重新输入")
+            QMessageBox.about(self.forget, "提示!", "您输入的号码是错误的！\n请重新输入")
             self.forget.usrLineEdit2.setFocus()
-        elif (self.checking1()):
-            QMessageBox.about(self, "提示!", "该账号还未注册！\n请先注册！")
+        elif self.checking1():
+            QMessageBox.about(self.forget, "提示!", "该账号还未注册！\n请先注册！")
             time.sleep(2)
             SuperAdminisOperation.win.splitter.widget(0).setParent(None)
-            SuperAdminisOperation.win.splitter.insertWidget(0, Logon.Logon())
+            SuperAdminisOperation.win.splitter.insertWidget(0, Logon_win.Logon_win())
         else:
             self.forget.pwdLineEdit2.setFocus()
 
     def enterPress2(self):  # 忘记密码-》密码框回车确定时判断文字框是否有输入
         if len(self.forget.pwdLineEdit2.text()) == 0:
-            QMessageBox.about(self, "提示!", "密码不能为空！")
+            QMessageBox.about(self.forget, "提示!", "密码不能为空！")
             self.forget.pwdLineEdit2.setFocus()
         else:
             self.forget.pwdLineEdit3.setFocus()
 
     def enterPress3(self):  # 忘记密码-》确认密码框回车确定时判断文字框是否有输入
         if len(self.forget.pwdLineEdit3.text()) == 0:
-            QMessageBox.about(self, "提示!", "密码不能为空！")
+            QMessageBox.about(self.forget, "提示!", "密码不能为空！")
             self.forget.pwdLineEdit3.setFocus()
         elif self.forget.pwdLineEdit2.text() != self.forget.pwdLineEdit3.text():
-            QMessageBox.about(self, "提示!", "您输入的密码前后不相同！！")
+            QMessageBox.about(self.forget, "提示!", "您输入的密码前后不相同！！")
         else:
             self.forget.codeLineEdit1.setFocus()
 
     def accept(self):  # 忘记密码时验证是否可以登录
         if len(self.forget.usrLineEdit2.text()) == 0:
-            QMessageBox.about(self, "提示!", "号码不能为空！")
+            QMessageBox.about(self.forget, "提示!", "号码不能为空！")
             self.forget.usrLineEdit2.setFocus()
         elif len(self.forget.usrLineEdit2.text()) != 11:
-            QMessageBox.about(self, "提示!", "您输入的号码是错误的！\n请重新输入")
+            QMessageBox.about(self.forget, "提示!", "您输入的号码是错误的！\n请重新输入")
             self.forget.usrLineEdit2.setFocus()
         elif len(self.forget.pwdLineEdit2.text()) == 0:
-            QMessageBox.about(self, "提示!", "密码不能为空！")
+            QMessageBox.about(self.forget, "提示!", "密码不能为空！")
             self.forget.pwdLineEdit2.setFocus()
         elif len(self.forget.pwdLineEdit3.text()) == 0:
-            QMessageBox.about(self, "提示!", "密码不能为空！")
+            QMessageBox.about(self.forget, "提示!", "密码不能为空！")
             self.forget.pwdLineEdit3.setFocus()
         elif self.forget.pwdLineEdit2.text() != self.forget.pwdLineEdit3.text():
-            QMessageBox.about(self, "提示!", "您输入的密码前后不相同！！")
+            QMessageBox.about(self.forget, "提示!", "您输入的密码前后不相同！！")
         elif self.code.lower() != self.forget.codeLineEdit1.text().lower():
-            QMessageBox.about(self, "提示!", "验证码输入错误")
+            QMessageBox.about(self.forget, "提示!", "验证码输入错误")
             self.renovate_code()
             self.forget.codeLineEdit1.setText("")
             self.forget.codeLineEdit1.setFocus()
@@ -127,6 +119,4 @@ class Forget(QFrame):
             self.savedate()
             # 连接主窗口界面。
             SuperAdminisOperation.win.splitter.widget(0).setParent(None)
-            SuperAdminisOperation.win.splitter.insertWidget(0, Function.Function())
-
-
+            SuperAdminisOperation.win.splitter.insertWidget(0, Function_win.Function_win())

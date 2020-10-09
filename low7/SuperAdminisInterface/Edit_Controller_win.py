@@ -1,11 +1,18 @@
-from PyQt5.QtWidgets import QWidget, QLabel, QPushButton, QGridLayout,QLineEdit
+from PyQt5.QtWidgets import QWidget, QLabel, QPushButton, QGridLayout, QLineEdit, QFrame
 from PyQt5.QtWidgets import QHBoxLayout,QComboBox
 from PyQt5.QtGui import QFont
 
 # 编辑管理员信息
-class Edit_Controller_win(QWidget):
-    def __init__(self):
+from SuperAdminisOperation import Edit_Controller
+
+
+class Edit_Controller_win(QFrame):
+    def __init__(self,number):
         super(Edit_Controller_win, self).__init__()
+        self.setFrameShape(QFrame.StyledPanel)
+        self.setFrameShadow(QFrame.Raised)
+        self.datawindow = Edit_Controller.Edit_Controller(self)
+        self.number = number
         self.sure = QPushButton("确认")
         self.amend = QPushButton("修改用户密码")
         self.returnBtn = QPushButton("返回")

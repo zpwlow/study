@@ -1,10 +1,16 @@
-from PyQt5.QtWidgets import QWidget, QPushButton, QGridLayout,QLineEdit
-from PyQt5.QtWidgets import QHBoxLayout,QLabel
+from PyQt5.QtWidgets import QWidget, QPushButton, QGridLayout, QLineEdit, QFrame
+from PyQt5.QtWidgets import QHBoxLayout, QLabel
 from PyQt5.QtGui import QFont
 
-class Controller_Logon_win(QWidget):
+from SuperAdminisOperation import Controller_Logon
+
+
+class Controller_Logon_win(QFrame):
     def __init__(self):
         super(Controller_Logon_win, self).__init__()
+        self.setFrameShape(QFrame.StyledPanel)
+        self.setFrameShadow(QFrame.Raised)
+        self.datawindow = Controller_Logon.Controller_Logon(self)
         self.usr = QLabel("用户:")
         self.usrname = QLabel("用户名：")
         self.password1 = QLabel("密码:")

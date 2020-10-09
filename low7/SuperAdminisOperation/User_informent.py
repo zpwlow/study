@@ -1,23 +1,15 @@
-from PyQt5.QtWidgets import QHBoxLayout,QFileDialog,QApplication
-from PyQt5.QtWidgets import QFrame,QMessageBox
+from PyQt5.QtWidgets import QFileDialog, QApplication
+from PyQt5.QtWidgets import QMessageBox
 from PyQt5.QtGui import QPixmap
-import base64,sqlite3,os,datetime
+import base64, sqlite3, os, datetime
 import SuperAdminisOperation
-from SuperAdminisOperation import Controller_news
-from SuperAdminisInterface.User_informent_win import User_informent_win
+from SuperAdminisInterface import Controller_news_win
 
 
-
-class User_informent(QFrame):
-    def __init__(self,number):
+class User_informent:
+    def __init__(self, win):
         super(User_informent, self).__init__()
-        self.setFrameShape(QFrame.StyledPanel)
-        self.setFrameShadow(QFrame.Raised)
-        self.informent =  User_informent_win()
-        self.horizontalLayout = QHBoxLayout(self)
-        self.horizontalLayout.addWidget(self.informent)
-
-        self.number = number
+        self.informent = win
         self.image()
         self.informent.sure.clicked.connect(self.connect_fun)
         self.informent.chang_image.clicked.connect(self.chang_fun)
@@ -30,7 +22,7 @@ class User_informent(QFrame):
         QApplication.processEvents()
 
     def chang_fun(self):
-        path, _ = QFileDialog.getOpenFileName(self, '请选择文件',
+        path, _ = QFileDialog.getOpenFileName(self.informent, '请选择文件',
                                               '/', 'image(*.jpg)')
         if path:
             self.image_path = path
@@ -53,17 +45,20 @@ class User_informent(QFrame):
         theTime = datetime.datetime.now().strftime(ab)
         sqlpath = './datas/database/Information.db'
         conn = sqlite3.connect(sqlpath)
-        conn.execute("INSERT INTO User_date VALUES(?,?,?,?,?,?)", (self.number, a, b, c, d, e))
-        conn.execute("insert into User_image values(?,?,?)",(self.number, total, self.file,))
+        conn.execute("INSERT INTO User_date VALUES(?,?,?,?,?,?)",
+                     (self.informent.number, a, b, c, d, e))
+        conn.execute("insert into User_image values(?,?,?)",
+                     (self.informent.number, total, self.file,))
         conn.execute("INSERT INTO Student_date VALUES(?,?,?,?,?)",
-                     (self.number, theTime, 1, 0.0, theTime))
+                     (self.informent.number, theTime, 1, 0.0, theTime))
         conn.commit()
         conn.close()
-        sqlpath = "./datas/database/SQ" + str(self.number) + "L.db"
+        sqlpath = "./datas/database/SQ" + str(self.informent.number) + "L.db"
         conn = sqlite3.connect(sqlpath)
         c = conn.cursor()
-        try:                                  # 开始时间  ， 课程号，课程名， 文件名 ， 结束时间
-            c.execute('''CREATE TABLE User_data(strat_time text,Cno text,Coursename text, filename text,last_time text)''')
+        try:  # 开始时间  ， 课程号，课程名， 文件名 ， 结束时间
+            c.execute(
+                '''CREATE TABLE User_data(strat_time text,Cno text,Coursename text, filename text,last_time text)''')
         except:
             pass
         c.close()
@@ -71,13 +66,13 @@ class User_informent(QFrame):
 
     def connect_fun(self):
         if len(self.informent.nameEdit.text()) == 0:
-            QMessageBox.about(self, "提示!", "姓名框不能为空！！")
+            QMessageBox.about(self.informent, "提示!", "姓名框不能为空！！")
             self.informent.nameEdit.setFocus()
         if len(self.informent.schoolEiit.text()) == 0:
-            QMessageBox.about(self, "提示!", "学校框不能为空！！")
+            QMessageBox.about(self.informent, "提示!", "学校框不能为空！！")
             self.informent.schoolEiit.setFocus()
         else:
             self.save_data()
             SuperAdminisOperation.win.splitter.widget(0).setParent(None)
-            SuperAdminisOperation.win.splitter.insertWidget(0, Controller_news.Controller_news())
-            QMessageBox.about(self, "提示", '添加用户成功!!')
+            SuperAdminisOperation.win.splitter.insertWidget(0, Controller_news_win.Controller_news_win())
+            QMessageBox.about(self.informent, "提示", '添加用户成功!!')

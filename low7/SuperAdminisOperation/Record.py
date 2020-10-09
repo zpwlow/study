@@ -1,24 +1,16 @@
-from PyQt5.QtWidgets import QHBoxLayout
-from PyQt5.QtWidgets import QFrame,QMessageBox
+from PyQt5.QtWidgets import QMessageBox
 from PyQt5.QtGui import QPixmap
 from captcha.image import ImageCaptcha
-import random,sqlite3
+import random, sqlite3
 import SuperAdminisOperation
-from SuperAdminisOperation import Logon,Forget,Function
-from SuperAdminisInterface.Record_win import Record_win
+from SuperAdminisInterface import Logon_win, Forget_win, Function_win
 
 
-
-#登录
-class Record(QFrame):
-    def __init__(self):
+# 登录
+class Record:
+    def __init__(self, win):
         super(Record, self).__init__()
-        self.setFrameShape(QFrame.StyledPanel)
-        self.setFrameShadow(QFrame.Raised)
-        self.record = Record_win()
-        self.horizontalLayout = QHBoxLayout(self)
-        self.horizontalLayout.addWidget(self.record)
-
+        self.record = win
         self.record.okBtn.clicked.connect(self.accept)
         self.record.forgetbtn.linkActivated.connect(self.forgetfun)  # 连接管理员忘记密码界面
         self.record.logonbtn.linkActivated.connect(self.logonfun)  # 连接管理员注册界面
@@ -55,37 +47,37 @@ class Record(QFrame):
 
     def enterPress1(self):  # 登录回车确定时判断文字框是否有输入
         if len(self.record.usrLineEdit.text()) == 0:
-            QMessageBox.about(self, "提示!", "号码不能为空！")
+            QMessageBox.about(self.record, "提示!", "号码不能为空！")
             self.record.usrLineEdit.setFocus()
         elif len(self.record.usrLineEdit.text()) != 11:
-            QMessageBox.about(self, "提示!", "您输入的号码是错误的！\n请重新输入")
+            QMessageBox.about(self.record, "提示!", "您输入的号码是错误的！\n请重新输入")
             self.record.usrLineEdit.setFocus()
         elif (self.checking1()):
-            QMessageBox.about(self, "提示!", "该账号还未注册！\n请先注册！")
+            QMessageBox.about(self.record, "提示!", "该账号还未注册！\n请先注册！")
         else:
             self.record.pwdLineEdit.setFocus()
 
     def enterPress2(self):  # 登录回车确定时判断文字框是否有输入
         if len(self.record.pwdLineEdit.text()) == 0:
-            QMessageBox.about(self, "提示!", "密码不能为空！")
+            QMessageBox.about(self.record, "提示!", "密码不能为空！")
             self.record.pwdLineEdit.setFocus()
         else:
             self.record.codeLineEdit.setFocus()
 
     def accept(self):  # 登录时判断密码是否正确
         if len(self.record.usrLineEdit.text()) == 0:
-            QMessageBox.about(self, "提示!", "号码不能为空！")
+            QMessageBox.about(self.record, "提示!", "号码不能为空！")
             self.record.usrLineEdit.setFocus()
         elif len(self.record.usrLineEdit.text()) != 11:
-            QMessageBox.about(self, "提示!", "您输入的号码是错误的！\n请重新输入")
+            QMessageBox.about(self.record, "提示!", "您输入的号码是错误的！\n请重新输入")
             self.record.usrLineEdit.setFocus()
         elif (self.checking1()):
-            QMessageBox.about(self, "提示!", "该账号还未注册！\n请先注册！")
+            QMessageBox.about(self.record, "提示!", "该账号还未注册！\n请先注册！")
         elif len(self.record.pwdLineEdit.text()) == 0:
-            QMessageBox.about(self, "提示!", "密码不能为空！")
+            QMessageBox.about(self.record, "提示!", "密码不能为空！")
             self.record.pwdLineEdit.setFocus()
         elif self.code.lower() != self.record.codeLineEdit.text().lower():
-            QMessageBox.about(self, "提示!", "验证码输入错误")
+            QMessageBox.about(self.record, "提示!", "验证码输入错误")
             self.renovate_code()
             self.record.codeLineEdit.setText("")
             self.record.codeLineEdit.setFocus()
@@ -105,16 +97,16 @@ class Record(QFrame):
             if d == 1:  # 连接主界面函数
                 SuperAdminisOperation.number = self.record.usrLineEdit.text()
                 SuperAdminisOperation.win.splitter.widget(0).setParent(None)
-                SuperAdminisOperation.win.splitter.insertWidget(0, Function.Function())
+                SuperAdminisOperation.win.splitter.insertWidget(0, Function_win.Function_win())
             else:
-                QMessageBox.about(self, "提示!", "账号或密码输入错误")
+                QMessageBox.about(self.record, "提示!", "账号或密码输入错误")
 
     def forgetfun(self):  # 连接超级管理员忘记密码界面
         SuperAdminisOperation.win.splitter.widget(0).setParent(None)
-        Forget.Forget().renovate_code()
-        SuperAdminisOperation.win.splitter.insertWidget(0, Forget.Forget())
+        Forget_win.Forget_win().renovate_code()
+        SuperAdminisOperation.win.splitter.insertWidget(0, Forget_win.Forget_win())
 
     def logonfun(self):  # 连接超级管理员注册界面
         SuperAdminisOperation.win.splitter.widget(0).setParent(None)
-        Logon.Logon().renovate_code()
-        SuperAdminisOperation.win.splitter.insertWidget(0, Logon.Logon())
+        Logon_win.Logon_win().renovate_code()
+        SuperAdminisOperation.win.splitter.insertWidget(0, Logon_win.Logon_win())

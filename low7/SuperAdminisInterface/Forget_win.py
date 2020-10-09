@@ -1,12 +1,17 @@
-from PyQt5.QtWidgets import QWidget, QLabel, QPushButton, QGridLayout,QLineEdit
+from PyQt5.QtWidgets import QWidget, QLabel, QPushButton, QGridLayout, QLineEdit, QFrame
 from PyQt5.QtWidgets import QHBoxLayout
 from PyQt5.QtGui import QFont
 
-
 # 忘记密码
-class Forget_win(QWidget):
+from SuperAdminisOperation import Forget
+
+
+class Forget_win(QFrame):
     def __init__(self):
         super(Forget_win, self).__init__()
+        self.setFrameShape(QFrame.StyledPanel)
+        self.setFrameShadow(QFrame.Raised)
+        self.datawindow = Forget.Forget(self)
         self.usr2 = QLabel("用户:")
         self.pwd2 = QLabel("密码:")
         self.pwd3 = QLabel("确认密码:")

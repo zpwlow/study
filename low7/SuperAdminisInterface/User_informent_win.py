@@ -1,10 +1,17 @@
-from PyQt5.QtWidgets import QWidget, QPushButton, QGridLayout,QLineEdit
-from PyQt5.QtWidgets import QHBoxLayout,QLabel,QComboBox
+from PyQt5.QtWidgets import QWidget, QPushButton, QGridLayout, QLineEdit, QFrame
+from PyQt5.QtWidgets import QHBoxLayout, QLabel, QComboBox
 from PyQt5.QtGui import QFont
 
-class User_informent_win(QWidget):
-    def __init__(self):
+from SuperAdminisOperation import User_informent
+
+
+class User_informent_win(QFrame):
+    def __init__(self, number):
         super(User_informent_win, self).__init__()
+        self.setFrameShape(QFrame.StyledPanel)
+        self.setFrameShadow(QFrame.Raised)
+        self.datawindow = User_informent.User_informent(self)
+        self.number = number
         self.sure = QPushButton("确认")
         self.chang_image = QPushButton("换头像")
         self.name = QLabel("姓名:")
@@ -20,7 +27,6 @@ class User_informent_win(QWidget):
         self.tupian = QLabel()
         self.schoolEiit = QLineEdit()
         self.devise_Ui()
-
 
     def devise_Ui(self):
         self.horizontalLayout = QHBoxLayout(self)

@@ -1,20 +1,16 @@
 from PyQt5.QtWidgets import QHBoxLayout
-from PyQt5.QtWidgets import QFrame,QMessageBox
+from PyQt5.QtWidgets import QMessageBox
 from PyQt5.QtGui import QPixmap
 from captcha.image import ImageCaptcha
-import random,sqlite3
+import random, sqlite3
 import SuperAdminisOperation
-from SuperAdminisOperation import User_informent,Controller_news
-from SuperAdminisInterface.User_Logon_win import User_Logon_win
+from SuperAdminisInterface import User_informent_win, Controller_news_win
 
 
-
-class User_Logon(QFrame):
-    def __init__(self):
+class User_Logon:
+    def __init__(self, win):
         super(User_Logon, self).__init__()
-        self.setFrameShape(QFrame.StyledPanel)
-        self.setFrameShadow(QFrame.Raised)
-        self.logon =  User_Logon_win()
+        self.logon = win
         self.horizontalLayout = QHBoxLayout(self)
         self.horizontalLayout.addWidget(self.logon)
 
@@ -64,74 +60,74 @@ class User_Logon(QFrame):
         conn.close()
 
     def enterPress1(self):  # 注册-》用户框回车确定时判断文字框是否有输入
-        if (len(self.logon.usrLine.text()) == 0):
-            QMessageBox.about(self, "提示!", "号码不能为空！")
+        if len(self.logon.usrLine.text()) == 0:
+            QMessageBox.about(self.logon, "提示!", "号码不能为空！")
             self.logon.usrLine.setFocus()
-        elif (len(self.logon.usrLine.text()) != 11):
-            QMessageBox.about(self, "提示!", "您输入的号码是错误的！\n请重新输入")
+        elif len(self.logon.usrLine.text()) != 11:
+            QMessageBox.about(self.logon, "提示!", "您输入的号码是错误的！\n请重新输入")
             self.logon.usrLine.setFocus()
-        elif (self.checking1()):
-            QMessageBox.about(self, "提示!", "您输入的号码已注册！\n请您换一个号码注册！")
+        elif self.checking1():
+            QMessageBox.about(self.logon, "提示!", "您输入的号码已注册！\n请您换一个号码注册！")
             self.logon.usrLine.setText("")
         else:
             self.logon.usrnameLine.setFocus()
 
     def enterPress2(self):  # 注册-》用户名框回车确定时判断文字框是否有输入
-        if (len(self.logon.usrnameLine.text()) == 0):
-            QMessageBox.about(self, "提示!", "用户名不能为空！")
+        if len(self.logon.usrnameLine.text()) == 0:
+            QMessageBox.about(self.logon, "提示!", "用户名不能为空！")
             self.logon.usrnameLine.setFocus()
         else:
             self.logon.pwdLineEdit1.setFocus()
 
     def enterPress3(self):  # 注册-》密码框回车确定时判断文字框是否有输入
-        if (len(self.logon.pwdLineEdit1.text()) == 0):
-            QMessageBox.about(self, "提示!", "密码不能为空！")
+        if len(self.logon.pwdLineEdit1.text()) == 0:
+            QMessageBox.about(self.logon, "提示!", "密码不能为空！")
             self.logon.pwdLineEdit1.setFocus()
         else:
             self.logon.pwdLineEdit2.setFocus()
 
     def enterPress4(self):  # 注册-》确认密码框回车确定时判断文字框是否有输入
-        if (len(self.logon.pwdLineEdit2.text()) == 0):
-            QMessageBox.about(self, "提示!", "密码不能为空！")
+        if len(self.logon.pwdLineEdit2.text()) == 0:
+            QMessageBox.about(self.logon, "提示!", "密码不能为空！")
             self.logon.pwdLineEdit2.setFocus()
-        elif (self.logon.pwdLineEdit1.text() != self.logon.pwdLineEdit2.text()):
-            QMessageBox.about(self, "提示!", "您输入的密码前后不相同！！")
+        elif self.logon.pwdLineEdit1.text() != self.logon.pwdLineEdit2.text():
+            QMessageBox.about(self.logon, "提示!", "您输入的密码前后不相同！！")
         else:
             self.logon.codeLineEdit.setFocus()
 
     def accept(self):  # 注册时将账号密码保存并登录。
         if len(self.logon.usrLine.text()) == 0:
-            QMessageBox.about(self, "提示!", "号码不能为空！")
+            QMessageBox.about(self.logon, "提示!", "号码不能为空！")
             self.logon.usrLine.setFocus()
         elif len(self.logon.usrLine.text()) != 11:
-            QMessageBox.about(self, "提示!", "您输入的号码是错误的！\n请重新输入")
+            QMessageBox.about(self.logon, "提示!", "您输入的号码是错误的！\n请重新输入")
             self.logon.usrLine.setFocus()
-        elif (self.checking1()):
-            QMessageBox.about(self, "提示!", "您输入的号码已注册！\n请您换一个号码注册！")
+        elif self.checking1():
+            QMessageBox.about(self.logon, "提示!", "您输入的号码已注册！\n请您换一个号码注册！")
             self.logon.usrLine.setText("")
-        elif (len(self.logon.usrnameLine.text()) == 0):
-            QMessageBox.about(self, "提示!", "用户名不能为空！")
+        elif len(self.logon.usrnameLine.text()) == 0:
+            QMessageBox.about(self.logon, "提示!", "用户名不能为空！")
             self.logon.usrnameLine.setFocus()
         elif len(self.logon.pwdLineEdit1.text()) == 0:
-            QMessageBox.about(self, "提示!", "密码不能为空！")
+            QMessageBox.about(self.logon, "提示!", "密码不能为空！")
             self.logon.pwdLineEdit1.setFocus()
         elif len(self.logon.pwdLineEdit2.text()) == 0:
-            QMessageBox.about(self, "提示!", "确认密码不能为空！")
+            QMessageBox.about(self.logon, "提示!", "确认密码不能为空！")
             self.logon.pwdLineEdit2.setFocus()
         elif self.logon.pwdLineEdit1.text() != self.logon.pwdLineEdit2.text():
-            QMessageBox.about(self, "提示!", "您输入的密码前后不相同！！")
+            QMessageBox.about(self.logon, "提示!", "您输入的密码前后不相同！！")
         elif self.code.lower() != self.logon.codeLineEdit.text().lower():
-            QMessageBox.about(self, "提示!", "验证码输入错误")
+            QMessageBox.about(self.logon, "提示!", "验证码输入错误")
             self.renovate_code()
             self.logon.codeLineEdit.setText("")
             self.logon.codeLineEdit.setFocus()
         else:
             self.save_data()
-            dow = User_informent.User_informent(self.logon.usrLine.text())
+            dow = User_informent_win.User_informent_win(self.logon.usrLine.text())
             SuperAdminisOperation.win.splitter.widget(0).setParent(None)
-            SuperAdminisOperation.win.splitter.insertWidget(0,dow )
+            SuperAdminisOperation.win.splitter.insertWidget(0, dow)
             # 连接主窗口界面。
 
     def change_record(self):  # 连接用户登录界面
         SuperAdminisOperation.win.splitter.widget(0).setParent(None)
-        SuperAdminisOperation.win.splitter.insertWidget(0, Controller_news.Controller_news())
+        SuperAdminisOperation.win.splitter.insertWidget(0, Controller_news_win.Controller_news_win())

@@ -1,12 +1,18 @@
-from PyQt5.QtWidgets import QWidget, QPushButton, QGridLayout,QLineEdit
-from PyQt5.QtWidgets import QHBoxLayout,QLabel
+from PyQt5.QtWidgets import QWidget, QPushButton, QGridLayout, QLineEdit, QFrame
+from PyQt5.QtWidgets import QHBoxLayout, QLabel
 from PyQt5.QtGui import QFont
 
-
 # 修改用户密码
-class Chang_User_amend_win(QWidget):
-    def __init__(self):
+from SuperAdminisOperation import Chang_User_amend
+
+
+class Chang_User_amend_win(QFrame):
+    def __init__(self, number):
         super(Chang_User_amend_win, self).__init__()
+        self.setFrameShape(QFrame.StyledPanel)
+        self.setFrameShadow(QFrame.Raised)
+        self.datawindow = Chang_User_amend.Chang_User_amend(self)
+        self.number = number
         self.usrlab = QLabel("账号:")
         self.amendlab1 = QLabel("原密码:")
         self.amendlab2 = QLabel("新密码:")

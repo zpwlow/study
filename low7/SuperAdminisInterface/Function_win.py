@@ -1,10 +1,16 @@
-from PyQt5.QtWidgets import QWidget, QApplication, QPushButton, QGridLayout
+from PyQt5.QtWidgets import QWidget, QApplication, QPushButton, QGridLayout, QFrame
 from PyQt5.QtWidgets import QHBoxLayout
 
 # 超级管理员功能界面
-class Function_win(QWidget):
+from SuperAdminisOperation import Function
+
+
+class Function_win(QFrame):
     def __init__(self):
         super(Function_win, self).__init__()
+        self.setFrameShape(QFrame.StyledPanel)
+        self.setFrameShadow(QFrame.Raised)
+        self.datawindow = Function.Function(self)
         self.mainbutton1 = QPushButton("管理信息")  # 用户功能界面的控件
         self.mainbutton2 = QPushButton("爬虫")
         self.mainbutton3 = QPushButton("添加资料")
