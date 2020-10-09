@@ -1,4 +1,4 @@
-from UserInterface.My_Course_win import My_Course_win, Coursewindow
+from UserInterface import My_Course_win
 import sqlite3
 from UserOperation.FingerDetection import figer_number
 import UserOperation
@@ -20,7 +20,7 @@ class My_Course():
         self.datas = c.fetchall()
         c.close()
         conn.close()
-        self.window1 = Coursewindow(self.datas, self.sign)
+        self.window1 = My_Course_win.Coursewindow(self.datas, self.sign)
         self.window.qtool.addItem(self.window1, "我的课程")
 
     # 识别手指指的操作命令
@@ -62,14 +62,14 @@ class My_Course():
                     data = self.datas[self.sign + 0][:3]
                     UserOperation.win.splitter.widget(0).setParent(None)
                     UserOperation.win.splitter.insertWidget(0, Course_news_win.Course_news_win(data))
-                elif 170 < x < 250 and 320 < y < 390:
+                elif 170 < x < 250 and 320 < y < 390 and (self.sign + 1) < len(self.datas):
                     # 课程二
                     self.window.messagelab.setText("提示!\n\t" + "本次操作为：课程二\n\t操作成功！！")
                     self.clear_cap()
                     data = self.datas[self.sign + 1][:3]
                     UserOperation.win.splitter.widget(0).setParent(None)
                     UserOperation.win.splitter.insertWidget(0, Course_news_win.Course_news_win(data))
-                elif 295 < x < 375 and 320 < y < 390:
+                elif 295 < x < 375 and 320 < y < 390 and (self.sign + 2) < len(self.datas):
                     # 课程三
                     self.window.messagelab.setText("提示!\n\t" + "本次操作为：课程三\n\t操作成功！！")
                     self.clear_cap()
@@ -93,8 +93,8 @@ class My_Course():
         if self.sign < 0:
             self.sign = 0
         self.window.qtool.removeItem(0)
-        self.window1 = Coursewindow(self.datas, self.sign)
-        self.window.qtool.addItem(self.window1, self.datas[2])
+        self.window1 = My_Course_win.Coursewindow(self.datas, self.sign)
+        self.window.qtool.addItem(self.window1, '我的课程')
         self.window.timer_next.start(200)
 
     # 下一页课程
@@ -104,8 +104,8 @@ class My_Course():
         n = len(self.datas)
         if n > self.sign:
             self.window.qtool.removeItem(0)
-            self.window1 = Coursewindow(self.datas, self.sign)
-            self.window.qtool.addItem(self.window1, self.datas[2])
+            self.window1 = My_Course_win.Coursewindow(self.datas, self.sign)
+            self.window.qtool.addItem(self.window1, '我的课程')
         else:
             self.sign = self.sign - 3
         self.window.timer_next.start(900)
@@ -131,5 +131,5 @@ class My_Course():
                 self.datas = c.fetchall()
                 c.close()
                 conn.close()
-                self.window1 = Coursewindow(self.datas, self.sign)
+                self.window1 = My_Course_win.Coursewindow(self.datas, self.sign)
                 self.window.qtool.addItem(self.window1, '我的课程')

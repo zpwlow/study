@@ -26,7 +26,6 @@ class Course_news_win(QFrame):
         self.setextlab = QLabel()
         self.progresslab = QLabel()
         self.newlab = MyLabel()  # 放置视频
-        self.datalayer = Course_news.Course_news(self)
         self.image = None
         self.data = data
         self.movie = QMovie("./datas/progress_bar.gif")
@@ -40,6 +39,7 @@ class Course_news_win(QFrame):
         self.newlab.setxy(170, 320, 250, 390, "课件二")
         self.newlab.setxy(295, 320, 375, 390, "课件三")
         self.qtool = QToolBox()
+        self.datalayer = Course_news.Course_news(self)
         self.devise_Ui()
 
     def devise_Ui(self):

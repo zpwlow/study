@@ -10,7 +10,7 @@ import cv2
 
 # 用户我的界面
 class User_Myself_win(QFrame):
-    def __init__(self, data):
+    def __init__(self):
         super(User_Myself_win, self).__init__()
         self.setFrameShape(QFrame.StyledPanel)
         self.setFrameShadow(QFrame.Raised)
@@ -28,7 +28,6 @@ class User_Myself_win(QFrame):
         self.year = QLabel("出生年月:")
         self.school = QLabel("学校:")
         self.grade = QLabel("年级:")
-        self.data = data
         self.messagelab = QLabel()  # 用于作为一个提示信息lab
         self.messagelab2 = QLabel()  # 用于作为一个提示信息lab
         self.setextlab = QLabel()
@@ -36,18 +35,18 @@ class User_Myself_win(QFrame):
         self.newlab = MyLabel()  # 放置视频
         self.timer_camera = QTimer()  # 定义定时器，用于控制显示视频的帧率
         self.timer_next = QTimer()  # 定义定时器，对题目进行识别．
-        self.datalayer = User_Myself.User_Myself(self)
         self.image = None
         self.newlab.setxy(125, 300, 225, 370, "返回")
         self.newlab.setxy(375, 300, 475, 370, "修改密码")
         self.devise_ui()
+        self.datalayer = User_Myself.User_Myself(self)
 
     def devise_ui(self):
         self.win.setLayout(self.layout)  # 设置顶级布局管理器
         self.horizontalLayout.addWidget(self.win)
         self.name1 = QLabel(self.datalayer.data[1])  # 读取数据库中的信息，将信息输出label中
         self.sex1 = QLabel(self.datalayer.data[3])
-        self.number1 = QLabel(self.data[0])
+        self.number1 = QLabel(self.datalayer.data[0])
         self.year1 = QLabel(self.datalayer.data[2][0:4] + "年 " +
                             self.datalayer.data[2][5:] + ' 月')
         self.school1 = QLabel(self.datalayer.data[4])

@@ -4,7 +4,7 @@ from PyQt5.QtWidgets import QWidget, QLabel, QGridLayout
 from PyQt5.QtWidgets import QApplication, QHBoxLayout
 from PyQt5.QtCore import Qt, QTimer
 from UserInterface.MyLabel import MyLabel
-from UserOperation import self_cap, self_CAM_NUM
+from UserOperation import self_cap, self_CAM_NUM, Max_widget
 
 
 class Max_widget_win(QWidget):
@@ -34,6 +34,8 @@ class Max_widget_win(QWidget):
         self.setextlab = QLabel()
         self.progresslab = QLabel()
         self.newlab = MyLabel()  # 放置视频
+
+        self.image = None
         self.newlab.setxy(45, 190, 125, 260, "关闭")
         self.newlab.setxy(170, 190, 250, 260, "上一页")
         self.newlab.setxy(295, 190, 375, 260, "下一页")
@@ -53,6 +55,7 @@ class Max_widget_win(QWidget):
         self.layout.addWidget(self.lab2, 4, 7, 10, 15)
         self.timer_camera = QTimer()  # 定义定时器，用于控制显示视频的帧率
         self.timer_next = QTimer()  # 定义定时器，对题目进行识别．
+        self.datalayer = Max_widget.Max_widget(self)
         self.timer_camera.timeout.connect(self.show_camera)
         self.timer_next.timeout.connect(lambda: self.datalayer.finger_camera(self.image))
         if not self.timer_camera.isActive():  # 若定时器未启动

@@ -33,14 +33,13 @@ class User_report_win(QFrame):
         self.newlab = MyLabel()  # 放置视频
         self.timer_camera = QTimer()  # 定义定时器，用于控制显示视频的帧率
         self.timer_next = QTimer()  # 定义定时器，对题目进行识别．
-        self.datalayer = User_report.User_report(self)
         self.image = None
         self.newlab.setxy(150, 200, 250, 270, "返回")
         self.devise_Ui()
         self.information()
+        self.datalayer = User_report.User_report(self)
 
     def devise_Ui(self):
-
         self.win.setLayout(self.layout)  # 设置顶级布局管理器
         self.horizontalLayout.addWidget(self.win)
         self.day.setStyleSheet("QLabel{color:rgb(0,0,0);font-size:22px;font-weight:Bold;font-family:'宋体';}")

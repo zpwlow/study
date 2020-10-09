@@ -37,7 +37,7 @@ class Logon_win(QFrame):
         self.setextlab = QLabel()
         self.progresslab = QLabel()
         self.newlab = MyLabel()  # 放置视频
-        self.datalayer = Logon.Logon(self)
+
         self.image = None
         self.face = None
         self.movie = QMovie("./datas/progress_bar.gif")
@@ -48,6 +48,7 @@ class Logon_win(QFrame):
         self.newlab.setxy(375, 270, 475, 340, "上一步")
         self.newlab.setxy(125, 410, 225, 480, "确定")
         self.newlab.setxy(375, 410, 475, 480, "注册")
+        self.datalayer = Logon.Logon(self)
         self.devise_Ui()
 
     def devise_Ui(self):
@@ -106,8 +107,8 @@ class Logon_win(QFrame):
         show = cv2.resize(self.image, (600, 550))  # 把读到的帧的大小重新设置为 600x500
         show = cv2.cvtColor(show, cv2.COLOR_BGR2RGB)  # 视频色彩转换回RGB，这样才是现实的颜色
         cv2.flip(show, -1, show)  # 翻转镜像--->对角翻转.
-        self.face = show[self.forget.newlab.y1:self.forget.newlab.y2,
-                    self.forget.newlab.x1:self.forget.newlab.x2]
+        self.face = show[self.newlab.y1:self.newlab.y2,
+                    self.newlab.x1:self.newlab.x2]
         showImage = QImage(show.data, show.shape[1], show.shape[0],
                            QImage.Format_RGB888)  # 把读取到的视频数据变成QImage形式
         # 往显示视频的Label里 显示QImage

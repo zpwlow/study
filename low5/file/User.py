@@ -1878,7 +1878,7 @@ class My_Course(QFrame):
         if n>self.sign:
             self.qtool.removeItem(0)
             self.window1 = Coursewindow(self.datas, self.sign)
-            self.qtool.addItem(self.window1, self.data[2])
+            self.qtool.addItem(self.window1, '我的课程')
         else:
             self.sign = self.sign - 3
         self.timer_next.start(3500)
@@ -1889,7 +1889,7 @@ class My_Course(QFrame):
             self.sign=0
         self.qtool.removeItem(0)
         self.window1 = Coursewindow(self.datas, self.sign)
-        self.qtool.addItem(self.window1, self.data[2])
+        self.qtool.addItem(self.window1, '我的课程')
         self.timer_next.start(3500)
 
     def next_step_fun(self):

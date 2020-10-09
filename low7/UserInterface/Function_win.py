@@ -29,7 +29,7 @@ class Function_win(QFrame):
         self.setextlab = QLabel()
         self.progresslab = QLabel()
         self.newlab = MyLabel()  # 放置视频
-        self.datalayer = Function.Function(self)
+
         self.image = None
         self.newlab.setxy(75, 150, 175, 220, "查看课程")
         self.newlab.setxy(250, 150, 350, 220, "问问题")
@@ -37,6 +37,7 @@ class Function_win(QFrame):
         self.newlab.setxy(75, 330, 175, 400, "我的")
         self.newlab.setxy(250, 330, 350, 400, "退出登录")
         self.newlab.setxy(425, 330, 525, 400, "退出程序")
+        self.datalayer = Function.Function(self)
         self.devise_Ui()
 
     def devise_Ui(self):

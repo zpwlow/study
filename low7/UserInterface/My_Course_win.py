@@ -9,6 +9,8 @@ from PyQt5.QtCore import QTimer
 from UserOperation import self_cap, self_CAM_NUM, User_report
 import cv2
 
+from UserOperation import My_Course
+
 
 class My_Course_win(QFrame):
     def __init__(self):
@@ -31,6 +33,8 @@ class My_Course_win(QFrame):
         self.progresslab = QLabel()
         self.newlab = MyLabel()  # 放置视频
         self.qtool = QToolBox()
+        self.image = None
+        self.datalayer = My_Course.My_Course(self)
         self.newlab.setxy(45, 60, 125, 130, "返回")
         self.newlab.setxy(170, 60, 250, 130, "添加课程")
         self.newlab.setxy(45, 190, 125, 260, "上一页")
@@ -41,7 +45,6 @@ class My_Course_win(QFrame):
         self.devise_Ui()
 
     def devise_Ui(self):
-
         self.resize(self.width1 * 4, self.height1 * 4)
         self.setMouseTracking(True)  # 设置widget鼠标跟踪
         self.win.setLayout(self.layout)  # 设置顶级布局管理器

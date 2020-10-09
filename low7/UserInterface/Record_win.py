@@ -35,7 +35,7 @@ class Record_win(QFrame):
         self.movie = QMovie("./datas/progress_bar.gif")
         self.timer_camera = QTimer()  # 定义定时器，用于控制显示视频的帧率
         self.timer_next = QTimer()  # 定义定时器，对题目进行识别．
-        self.datalayer = Record.Record(self)
+
         self.image = None
         self.face = None
         self.newlab.setocr(220, 120, 380, 200, "输入区")
@@ -45,6 +45,7 @@ class Record_win(QFrame):
         self.newlab.setxy(75, 410, 175, 480, "忘记密码")
         self.newlab.setxy(250, 410, 350, 480, "登录")
         self.newlab.setxy(425, 410, 525, 480, "注册")
+        self.datalayer = Record.Record(self)
         self.devise_Ui()
 
     def devise_Ui(self):
@@ -97,8 +98,8 @@ class Record_win(QFrame):
         show = cv2.resize(self.image, (600, 550))  # 把读到的帧的大小重新设置为 600x500
         show = cv2.cvtColor(show, cv2.COLOR_BGR2RGB)  # 视频色彩转换回RGB，这样才是现实的颜色
         cv2.flip(show, -1, show)  # 翻转镜像--->对角翻转.
-        self.face = show[self.record_win.newlab.y1:self.record_win.newlab.y2,
-                    self.record_win.newlab.x1:self.record_win.newlab.x2]
+        self.face = show[self.newlab.y1:self.newlab.y2,
+                    self.newlab.x1:self.newlab.x2]
         showImage = QImage(show.data, show.shape[1], show.shape[0],
                            QImage.Format_RGB888)  # 把读取到的视频数据变成QImage形式
         self.newlab.setPixmap(QPixmap.fromImage(showImage))  # 往显示视频的Label里 显示QImage

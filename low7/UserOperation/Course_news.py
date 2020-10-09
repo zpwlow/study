@@ -1,14 +1,15 @@
-from PyQt5.QtWidgets import QFrame, QHBoxLayout
-from PyQt5.QtGui import QImage, QPixmap
-from PyQt5.QtCore import QTimer
+import base64
+import glob
+import os
+import shutil
+import sqlite3
+import zipfile
 
-from UserInterface import My_Course_win, Max_widget_win, Practice_widget_win
-from UserInterface.Course_news_win import Course_news_win, CuFileQlist, CourseexQlist
-from UserOperation import self_cap, self_CAM_NUM
-import cv2, sqlite3, os, base64, glob, zipfile, shutil
-from UserOperation.FingerDetection import figer_number
 import UserOperation
-from UserOperation import My_Course, Practice_widget, Max_widget
+from UserInterface import My_Course_win, Max_widget_win, Practice_widget_win
+from UserInterface import Course_news_win
+from UserOperation import FingerDetection
+from UserOperation import self_cap, self_CAM_NUM
 
 
 class Course_news:
@@ -26,12 +27,12 @@ class Course_news:
         self.datas = c.fetchall()
         c.close()
         conn.close()
-        self.window1 = CuFileQlist(self.datas, self.sign)
+        self.window1 = Course_news_win.CuFileQlist(self.datas, self.sign)
         self.window.qtool.addItem(self.window1, self.window.data[2] + " 课件")
 
     # 识别手指指的操作命令
     def finger_camera(self, image):
-        fingers = figer_number(image)
+        fingers = FingerDetection.figer_number(image)
         if fingers is not None:
             x = fingers[1] * (450 / 800)
             y = fingers[2] * (450 / 600)
@@ -57,7 +58,7 @@ class Course_news:
                     self.window.messagelab.setText("提示!\n\t" +
                                                    "本次操作为：下一页\n\t操作成功！！")
                     self.add_images()
-                if self.sign1 == "课件":
+                elif self.sign1 == "课件":
                     if 170 < x < 250 and 60 < y < 130:
                         # 练习
                         self.window.timer_next.stop()
@@ -148,7 +149,7 @@ class Course_news:
         n = len(self.datas)
         if n > self.sign:
             self.window.qtool.removeItem(0)
-            self.window1 = CuFileQlist(self.datas, self.sign)
+            self.window1 = Course_news_win.CuFileQlist(self.datas, self.sign)
             self.window.qtool.addItem(self.window1, self.window.data[2] + " 课件")
         else:
             self.sign = self.sign - 3
@@ -162,7 +163,7 @@ class Course_news:
         if self.sign < 0:
             self.sign = 0
         self.window.qtool.removeItem(0)
-        self.window1 = CuFileQlist(self.datas, self.sign)
+        self.window1 = Course_news_win.CuFileQlist(self.datas, self.sign)
         self.window.qtool.addItem(self.window1, self.window.data[2] + " 课件")
         self.window.timer_next.start(200)
 
@@ -182,7 +183,7 @@ class Course_news:
         c.close()
         conn.close()
         self.window.qtool.removeItem(0)
-        self.window1 = CourseexQlist(self.datas, self.sign)
+        self.window1 = Course_news_win.CourseexQlist(self.datas, self.sign)
         self.window.qtool.addItem(self.window1, self.window.data[2] + " 　练习")
         self.window.timer_next.start(200)
 
@@ -204,7 +205,7 @@ class Course_news:
         c.close()
         conn.close()
         self.window.qtool.removeItem(0)
-        self.window1 = CuFileQlist(self.datas, self.sign)
+        self.window1 = Course_news_win.CuFileQlist(self.datas, self.sign)
         self.window.qtool.addItem(self.window1, self.window.data[2] + " 　课件")
         self.window.timer_next.start(200)
 

@@ -4,7 +4,7 @@ import sqlite3
 from PyQt5 import QtCore
 from PyQt5.QtGui import QPixmap
 import UserOperation
-from UserInterface.AddCourse_win import CourseQlist
+from UserInterface import AddCourse_win
 from UserOperation.ContrastJob import ContrastJob
 from UserOperation.FingerDetection import figer_number
 
@@ -102,7 +102,7 @@ class My_Course:
             self.datas = c.fetchall()
             if len(self.datas) > 0:
                 self.data = self.datas[0]
-                self.coursewin = CourseQlist(self.data)
+                self.coursewin = AddCourse_win.CourseQlist(self.data)
                 self.window.qtool.removeItem(0)
                 self.window.qtool.addItem(self.coursewin, '查找的课程')
                 self.window.qtool.setStyleSheet(

@@ -123,7 +123,7 @@ class My_Course(QFrame):
             self.sign=0
         self.course.qtool.removeItem(0)
         self.window1 = Coursewindow(self.datas, self.sign)
-        self.course.qtool.addItem(self.window1, self.data[2])
+        self.course.qtool.addItem(self.window1, '我的课程')
         self.timer_next.start(900)
 
     # 下一页课程
@@ -134,7 +134,7 @@ class My_Course(QFrame):
         if n>self.sign:
             self.course.qtool.removeItem(0)
             self.window1 = Coursewindow(self.datas, self.sign)
-            self.course.qtool.addItem(self.window1, self.data[2])
+            self.course.qtool.addItem(self.window1, '我的课程')
         else:
             self.sign = self.sign - 3
         self.timer_next.start(900)
